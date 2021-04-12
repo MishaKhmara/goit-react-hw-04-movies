@@ -85,7 +85,7 @@ class App extends Component {
       <div className={css.App}>
         <SearchForm onSubmit={this.onChangeQwery} />
 
-        {!error && <h1>{error}</h1>}
+        {error && <h1>{error}</h1>}
 
         <ImageGallery pictures={pictures} bigImage={this.bigImage} />
         {isLoading && <Loader />}

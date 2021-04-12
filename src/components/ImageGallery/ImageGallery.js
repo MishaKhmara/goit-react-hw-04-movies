@@ -13,6 +13,7 @@ const ImageGallery = ({ pictures, bigImage }) => {
 };
 ImageGallery.propTypes = {
   pictures: PropTypes.array,
+  bigImage: PropTypes.func,
 };
 
 export default ImageGallery;
