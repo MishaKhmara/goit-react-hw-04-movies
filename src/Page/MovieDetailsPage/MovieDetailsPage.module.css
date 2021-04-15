@@ -1,0 +1,20 @@
+.images {
+  width: 250px;
+}
+
+.movieTitle {
+  font-size: 20px;
+}
+
+.Details {
+  display: flex;
+}
+
+.DetailsWraper {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.Genres {
+  margin-right: 10px;
+}

@@ -25,3 +25,9 @@ img {
   max-width: 100%;
   height: auto;
 }
+li {
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+}

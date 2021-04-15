@@ -1,0 +1,17 @@
+.moviesCard {
+  width: 300px;
+  height: auto;
+}
+.moviesList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.moviesListItem {
+  list-style: none;
+  margin-bottom: 12px;
+}
+.title {
+  width: 230px;
+  margin: 0 auto;
+}

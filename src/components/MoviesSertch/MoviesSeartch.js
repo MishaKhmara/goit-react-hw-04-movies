@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import css from './Searchbar.module.css';
+import css from './MoviesSeartch.module.css';
 import PropTypes from 'prop-types';
 
 class SearchForm extends Component {
@@ -16,7 +16,7 @@ class SearchForm extends Component {
 
   render() {
     return (
-      <header className={css.Searchbar}>
+      <div className={css.Searchbar}>
         <form onSubmit={this.hendleSubmit} className={css.SearchForm}>
           <button type="submit" className={css.SearchFormButton}>
             <span className={css.SearchFormButtonLabel}>Search</span>
@@ -27,11 +27,11 @@ class SearchForm extends Component {
             type="text"
             autoComplete="off"
             autoFocus
-            placeholder="Search images and photos"
+            placeholder="Search movies"
             onChange={this.hendleChange}
           />
         </form>
-      </header>
+      </div>
     );
   }
 }
