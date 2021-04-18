@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Reviews/Reviews.module.css"],"names":[],"mappings":"AAAA,yBACE,eAAgB,CAChB,YACF,CACA,qBACE,SACF","file":"4.cc69c4c1.chunk.css","sourcesContent":[".listItem {\r\n  list-style: none;\r\n  padding: 50px;\r\n}\r\n.list {\r\n  padding: 0;\r\n}\r\n"]}
