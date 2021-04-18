@@ -39,9 +39,9 @@ const GetMovieDetails = async movieId => {
 const GetMovieCredits = async movieId => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/movie/${movieId}/credits?api_key=${key}&language=en-US`,
+      `${BASE_URL}/movie/${movieId}/credits?api_key=${key}`,
     );
-    return response.data.results;
+    return response.data.cast;
   } catch (e) {
     throw new Error(e);
   }

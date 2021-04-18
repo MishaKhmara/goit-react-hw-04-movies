@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import SearchForm from '../../components/MoviesSertch/MoviesSeartch';
 import searchApi from '../../services/searchApi';
-import { Link } from 'react-router-dom';
-import css from './MoviePage.module.css';
+import MoviesList from '../../components/MoviesList/MoviesList';
+import queryString from 'query-string';
+import PropTypes from 'prop-types';
 
 export class MoviePage extends Component {
   state = {
@@ -11,37 +12,50 @@ export class MoviePage extends Component {
     error: null,
     query: '',
   };
+  componentDidMount() {
+    const { location } = this.props;
 
-  onQuerySearch = async query => {
+    const { query } = queryString.parse(location.search);
+
+    query &&
+      searchApi.GetSearchMovies(query).then(results => {
+        this.setState({ movies: results });
+      });
+  }
+
+  handleSubmit = query => {
+    const { history } = this.props;
+    this.setState({ query });
     searchApi
       .GetSearchMovies(query)
-      .then(results => this.setState({ movies: results }))
+      .then(results => {
+        this.setState({ movies: results });
+      })
       .catch(error => console.log(error));
+
+    history.push({
+      pathname: history.pathname,
+      search: `query=${query}`,
+    });
   };
 
   render() {
     return (
       <>
-        <SearchForm onSubmit={this.onQuerySearch} />
+        <SearchForm onSubmit={this.handleSubmit} />
 
-        <ul className={css.moviesList}>
-          {this.state.movies.map(({ id, poster_path, title }) => (
-            <li key={id} className={css.moviesListItem}>
-              <Link to={`${this.props.match.url}/${id}`}>
-                <img
-                  className={css.moviesCard}
-                  src={
-                    poster_path &&
-                    `https://image.tmdb.org/t/p/w500/${poster_path}`
-                  }
-                  alt={`${title} poster`}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <MoviesList movies={this.state.movies} location={this.props.location} />
       </>
     );
   }
 }
+
+MoviePage.propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+    query: PropTypes.string,
+  }).isRequired,
+};
+
 export default MoviePage;

@@ -1,8 +1,12 @@
-import { Component } from 'react';
+import { Component, Suspense, lazy } from 'react';
 import searchApi from '../../services/searchApi';
-import css from './MovieDetailsPage.module.css';
-import Reviews from '../../components/Reviews/Reviews';
-import { Route } from 'react-router-dom';
+import SecondaryNav from '../../components/SecondaryNav/SecondaryNav';
+import { Route, Switch } from 'react-router-dom';
+import routes from '../../routes';
+import MovieDetails from '../../components/MovieDetails/MovieDetails';
+import Loader from '../../components/Loader/Loader';
+const Cast = lazy(() => import('../../components/Cast/Cast'));
+const Reviews = lazy(() => import('../../components/Reviews/Reviews'));
 
 class MovieDetailsPage extends Component {
   state = {
@@ -16,60 +20,49 @@ class MovieDetailsPage extends Component {
 
   componentDidMount() {
     const { movieId } = this.props.match.params;
-    console.log(movieId);
+
     searchApi
       .GetMovieDetails(movieId)
       .then(data => this.setState({ ...data }))
       .catch(error => console.log(error));
   }
 
+  handleGoBack = () => {
+    const { location, history } = this.props;
+
+    history.push(location?.state?.from || routes.movies);
+  };
+
   render() {
-    const {
-      title,
-      release_date,
-      vote_average,
-      overview,
-      genres,
-      poster_path,
-    } = this.state;
     return (
       <>
-        <div className={css.Details}>
-          <img
-            className={css.images}
-            src={
-              poster_path && `https://image.tmdb.org/t/p/w500/${poster_path}`
-            }
-            alt={`${title} poster`}
-          />
-          <div className={css.DetailsWraper}>
-            <h1 className={css.movieTitle}>{title}</h1>
-            <p> Release date: {release_date}</p>
-            <p>
-              User Score:
-              <span> {vote_average * 10}%</span>
-            </p>
-            <h2>Overview</h2>
-            <p>{overview}</p>
-            <h2>Genres</h2>
-            {genres.map(genre => (
-              <span className={css.Genres} key={genre.id}>
-                {genre.name}
-              </span>
-            ))}
-          </div>
-        </div>
-        <Reviews />
-        <Route
-          exact
-          path="/movies/:movieId/cast"
-          render={() => <h1>hello</h1>}
-        />
-        <Route
-          exact
-          path="/movies/:movieId/reviews"
-          render={() => <h2>hello2</h2>}
-        />
+        <button type="button" onClick={this.handleGoBack}>
+          Go back
+        </button>
+
+        <MovieDetails state={this.state} />
+
+        <h3>Additional information</h3>
+        {this.state.isLoading && <Loader />}
+        <SecondaryNav url={this.props.match.url} />
+
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route
+              path={`${this.props.match.url}/cast`}
+              render={props => (
+                <Cast {...props} id={this.props.match.params.movieId} />
+              )}
+            />
+            <Route
+              exact
+              path={`${this.props.match.url}/reviews`}
+              render={props => (
+                <Reviews {...props} id={this.props.match.params.movieId} />
+              )}
+            />
+          </Switch>
+        </Suspense>
       </>
     );
   }

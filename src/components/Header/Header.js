@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import css from './Header.module.css';
+import routes from '../../routes';
 
 const Header = () => {
   return (
@@ -9,7 +10,7 @@ const Header = () => {
           <li className={css.listItem}>
             <NavLink
               exact
-              to="/"
+              to={routes.home}
               className={css.link}
               activeClassName={css.activeLink}
             >
@@ -18,7 +19,7 @@ const Header = () => {
           </li>
           <li className={css.listItem}>
             <NavLink
-              to="/movies"
+              to={routes.moviePage}
               className={css.link}
               activeClassName={css.activeLink}
             >

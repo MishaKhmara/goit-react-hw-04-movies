@@ -1,35 +1,38 @@
-import { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
 import css from './Reviews.module.css';
+import searchApi from '../../services/searchApi';
 
-export class Reviews extends Component {
+export default class Cast extends Component {
+  state = {
+    reviews: [],
+  };
+
+  componentDidMount() {
+    searchApi
+      .GetMovieReviews(this.props.id)
+      .then(data => this.setState({ reviews: data }))
+      .catch(error => console.log(error));
+  }
+
   render() {
+    const { reviews } = this.state;
+    const isShowReviews = reviews.length > 0;
+
     return (
-      <nav>
-        <ul className={css.list}>
-          <li className={css.listItem}>
-            <NavLink
-              exact
-              to="/movies/:movieId/cast"
-              className={css.link}
-              activeClassName={css.activeLink}
-            >
-              Cast
-            </NavLink>
-          </li>
-          <li className={css.listItem}>
-            <NavLink
-              to="/movies/:movieId/reviews"
-              className={css.link}
-              activeClassName={css.activeLink}
-            >
-              Reviews
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
+      <>
+        {isShowReviews ? (
+          <ul className={css.list}>
+            {reviews.map(review => (
+              <li className={css.listItem} key={review.id}>
+                <h3>Author: {review.author}</h3>
+                <p>{review.content}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <h3>We don't have any reviews for this movie</h3>
+        )}
+      </>
     );
   }
 }
-
-export default Reviews;
