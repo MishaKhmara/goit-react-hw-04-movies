@@ -44,7 +44,10 @@ class MovieDetailsPage extends Component {
 
         <h3>Additional information</h3>
         {this.state.isLoading && <Loader />}
-        <SecondaryNav url={this.props.match.url} />
+        <SecondaryNav
+          url={this.props.match.url}
+          location={this.props.location.state}
+        />
 
         <Suspense fallback={<Loader />}>
           <Switch>

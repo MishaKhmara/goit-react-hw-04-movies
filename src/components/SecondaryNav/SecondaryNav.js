@@ -1,4 +1,4 @@
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import css from './SecondaryNav.module.css';
 
 const Reviews = ({ url, location }) => {
@@ -9,7 +9,7 @@ const Reviews = ({ url, location }) => {
           <NavLink
             to={{
               pathname: `${url}/cast`,
-              state: { from: location },
+              state: location,
             }}
             className={css.link}
             activeClassName={css.activeLink}
@@ -21,7 +21,7 @@ const Reviews = ({ url, location }) => {
           <NavLink
             to={{
               pathname: `${url}/reviews`,
-              state: { from: location },
+              state: location,
             }}
             className={css.link}
             activeClassName={css.activeLink}
@@ -34,4 +34,4 @@ const Reviews = ({ url, location }) => {
   );
 };
 
-export default withRouter(Reviews);
+export default Reviews;
